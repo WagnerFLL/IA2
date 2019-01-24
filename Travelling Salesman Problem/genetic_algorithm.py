@@ -12,15 +12,21 @@ vertices = []
 
 def fit_score(population):
     for elem in population:
-        print(elem.path)
         elem.cities_count = [0] * len(vertices)
         for index, x in enumerate(elem.path):
             if x == 1:
                 for v in paths[index]:
                     elem.cities_count[vertices.index(v)] += 1
+                    elem.score += 1
                     if elem.cities_count[vertices.index(v)] > 2:
+                        elem.monster = True
                         elem.score = -1
                         break
+                else:
+                    continue
+                break
+
+    return population
 
 
 def main():
@@ -34,16 +40,15 @@ def main():
 
         paths.append(path)
 
-    print(vertices)
-
     population = []
-    for i in range(1000):
+    for i in range(100 * len(vertices)):
         path = []
         for x in range(n_path):
             path.append(randint(0, 1))
         chromosome = Chromosome(path)
         population.append(chromosome)
-    fit_score(population)
+    population = fit_score(population)
+    print(*[x for x in population if not x.monster ], sep='\n')
 
 
 if __name__ == "__main__":
