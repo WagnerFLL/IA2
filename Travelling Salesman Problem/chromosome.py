@@ -7,3 +7,8 @@ class Chromosome:
 
     def __repr__(self):
         return "path = " + str(self.path) + " with: " + str(self.score)
+
+    def comparator(self, b):
+        if self.score > b.score:
+            return -1
+        return 1
